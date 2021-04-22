@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.android.compileSdkVersion
+    buildToolsVersion rootProject.android.buildToolsVersion
+
+    defaultConfig {
+        applicationId rootProject.android.applicationId
+        minSdkVersion rootProject.android.minSdkVersion
+        targetSdkVersion rootProject.android.targetSdkVersion
+        versionCode rootProject.android.versionCode
+        versionName rootProject.android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        // 在Android Studio3.0 annotation processors(注释器)需要显示的去添加，
+        javaCompileOptions {
+            annotationProcessorOptions
+                    { includeCompileClasspath = true
+                        arguments = [AROUTER_MODULE_NAME: project.getName()]
+                    }
+        }
+    }
+
+    buildTypes {
+        release {
+            // 是否zip优化
+            zipAlignEnabled true
+            // 删除无用资源
+            shrinkResources false
+            debuggable false
+            // 混淆
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        //测试
+        debug {
+//            applicationIdSuffix ".debug"
+            // 是否zip优化
+            zipAlignEnabled false
+            // 删除无用资源
+            shrinkResources false
+            debuggable true
+            // 混淆
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    lintOptions {
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // 基类模块
+    implementation project(':baselibrary')
+    implementation project(':model_user')
+
+    annotationProcessor rootProject.ext.dependencies["aArouterCompiler"]
+
+}

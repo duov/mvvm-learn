@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--数据标签-->
+    <data>
+
+        <!--import导入一些需要用到的类-->
+        <import type="com.ld.mvvm.R"/>
+
+        <!--申明需要用到的具体数据，name就是下面具体View使用时需要的变量名-->
+        <variable
+            name="testVm"
+            type="com.ld.mvvm.test.TestVm" />
+        
+        <import
+            type="com.ld.baselibrary.binding.viewadapter.recyclerview.LayoutManagers"/>
+
+        <import type="com.ld.baselibrary.binding.viewadapter.recyclerview.LineManagers"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="button"
+            android:onClick="@{testVm.clickListener}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="@{testVm.testTv}"
+            />
+        
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:onRefreshLoadMoreCommand="@{testVm.onRefreshLoadMoreListener}"
+            >
+            
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="@{LayoutManagers.staggeredGrid(2,1)}"
+                app:itemBinding="@{testVm.itemBinding}"
+                app:items="@{testVm.observableList}"
+                app:lineManager="@{LineManagers.vertical()}"/>
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+</layout>

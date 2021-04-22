@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--数据标签-->
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <!--import导入一些需要用到的类-->
+        <import type="com.ld.mvvm.R"/>
+
+        <import type="android.view.View"/>
+
+        <!--申明需要用到的具体数据，name就是下面具体View使用时需要的变量名-->
+        <variable
+            name="itemTestVm"
+            type="com.ld.mvvm.test.ItemTestActivityVm" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:background="#DBB1E3">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:url="@{itemTestVm.url}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{itemTestVm.data.title}"
+            android:padding="10dp"
+            android:visibility="@{position % 2 == 0 ? View.VISIBLE : View.GONE}"
+            />
+
+    </LinearLayout>
+
+</layout>

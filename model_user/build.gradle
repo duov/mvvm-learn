@@ -1,0 +1,89 @@
+if (isModule.toBoolean()) {
+    //组件化编译时为application
+    apply plugin: 'com.android.application'
+} else {
+    //非组件化编译时为library
+    apply plugin: 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.android.compileSdkVersion
+    buildToolsVersion rootProject.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.android.minSdkVersion
+        targetSdkVersion rootProject.android.targetSdkVersion
+        versionCode rootProject.android.versionCode
+        versionName rootProject.android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+        multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions
+                    {
+                        includeCompileClasspath = true
+                        arguments = [AROUTER_MODULE_NAME: project.getName()]
+                    }
+        }
+    }
+
+    // 启用dataBinding
+    dataBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        //测试
+        debug {
+//            applicationIdSuffix ".debug"
+            minifyEnabled false
+            debuggable true
+//            signingConfig signingConfigs.jjldebug_keystore
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            if (isModule.toBoolean()) {
+                //组件化编译时为app，在对应的AndroidManifest文件中需要写ndroid.intent.action.MAIN入口Activity
+                manifest.srcFile 'src/main/user_manifest/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                //集成开发模式下排除debug文件夹中的所有Java文件
+                java {
+                    //debug文件夹中放的是Application类，非组件化时不用有此类
+                    exclude 'debug/**'
+                }
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // 基类模块
+    implementation project(':baselibrary')
+
+    annotationProcessor rootProject.ext.dependencies["glideCompiler"]
+    annotationProcessor rootProject.ext.dependencies["aArouterCompiler"]
+
+}

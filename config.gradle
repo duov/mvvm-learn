@@ -1,0 +1,163 @@
+/**
+ * config.gradle用于配置项目中各种lib引用和版本号控制
+ *
+ * [module_*] 各module版本号及applicationId控制
+ * 如需在各个module中升级更新版本号，请使用 module_[modulename]*的命名规则
+ *
+ * [project.ext.dependVersion] 中创建各个依赖库的版本号控制，需在类库名称后增加‘_version’
+ *
+ * [类库maven地址] 中创建各个类库的maven地址，同一类库需要引用多个类时，可以使用数组，要确保类库引用不重复
+ *
+ * [项目依赖列表] 中创建可以直接让module引用的依赖列表，以Deps结尾，原则上以类库功能分类，比如网络库，图片处理库
+ * 尽量不要以类库本身的名字命名依赖列表
+ *
+ * 各个module中引用类库时尽量使用项目依赖列表中的项目，不要直接使用类库地址中的项目
+ *
+ * 需要添加新的类库时，先查询本列表和项目中是否已引用类似功能的类库，尽量不要添加重复功能的类库
+ */
+
+ext{
+
+    android = [
+            buildToolsVersion: "29.0.0",
+            compileSdkVersion: 29,
+            applicationId :"com.ld.mvvm",
+            minSdkVersion :23,
+            targetSdkVersion :29,
+            versionCode : 1,
+            versionName : "1.0.0"
+    ]
+
+    //依赖类库的版本号
+    dependVersion = [
+            "junit-version"         : "4.12",
+            "support-version"       : "1.1.0",
+
+            glide                   : "4.8.0",
+            glideCompiler           : "4.8.0",
+            photoview               : "1.4.1",
+            zxing                   : "2.2",
+            eventbus                : "3.1.1",
+            banner                  : "1.4.10",
+            pickerView              : "4.1.8",
+            smartrefresh            : "1.1.0-beta-1",
+            greendao                : "3.2.0",
+            aArouter                : "1.5.0",
+            aArouterCompiler        : "1.2.2",
+            logger                  : "2.2.0",
+//            databinding                : "3.1.6"
+            picture_library         : "v2.2.3",
+
+            // network
+            okhttp                  : "3.10.0",
+            retrofit                : "2.4.0",
+            gson                    : "2.8.5",
+
+            rxJava                  : "3.0.6",
+            rxAndroid               : "3.0.0",
+            rxbinding               : "4.0.0",
+            dataBindingAdapter      : "4.0.0",
+
+            rxLifecycle             : "4.0.0",
+            rxpermissions           : "0.12"
+            ////////////////
+    ]
+
+    // support 依赖配置
+    support = [
+            androidx                : "androidx.appcompat:appcompat:${dependVersion["support-version"]}",
+            constraintlayout        : "androidx.constraintlayout:constraintlayout:1.1.3",
+            appcompat               : "androidx.appcompat:appcompat:1.1.0",
+            recyclerview            : "androidx.recyclerview:recyclerview:1.1.0"
+    ]
+
+    // 依赖第三方配置
+    dependencies = [
+            // glide图片加载
+            "glide"                                : "com.github.bumptech.glide:glide:${dependVersion["glide"]}",
+            "glideCompiler"                        : "com.github.bumptech.glide:compiler:${dependVersion["glideCompiler"]}",
+            "glide-recyclerview"                   : "com.github.bumptech.glide:recyclerview-integration:${dependVersion["glide"]}",
+            // 图片放大 侧滑
+            "photoview"                            : "com.bm.photoview:library:${dependVersion["photoview"]}",
+            // 扫描+生成二维码
+            "zxing"                                : "cn.yipianfengye.android:zxing-library:${dependVersion["zxing"]}",
+            // eventBus
+            "eventbus"                             : "org.greenrobot:eventbus:${dependVersion["eventbus"]}",
+            // 轮播控件
+            "banner"                               : "com.youth.banner:banner:${dependVersion["banner"]}",
+            // 滚轮选择器
+            "pickerView"                           : "com.contrarywind:Android-PickerView:${dependVersion["pickerView"]}",
+            // 列表加载控件
+            "SmartRefreshLayout"                   : "com.scwang.smartrefresh:SmartRefreshLayout:${dependVersion["smartrefresh"]}",
+            // 数据库
+            "greendao"                             : "org.greenrobot:greendao:${dependVersion["greendao"]}",
+            "greendao-generator"                   : "org.greenrobot:greendao-generator:${dependVersion["greendao"]}",
+            // 阿里路由框架--跨模块调用
+            "aArouter"                             : "com.alibaba:arouter-api:${ dependVersion["aArouter"]}",
+            "aArouterCompiler"                     : "com.alibaba:arouter-compiler:${ dependVersion["aArouterCompiler"]}",
+            // 日志
+            "logger"                               : "com.orhanobut:logger:${dependVersion["logger"]}",
+            // TabLayout封装框架
+            "tablayout"                            : "com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar",
+            // 图片选择器、拍照、视频多功能 内部含有一个Glide 4.5.0版本
+            "PictureSelector"                      : "com.github.LuckSiege.PictureSelector:picture_library:${dependVersion["picture_library"]}",
+            // 会话列表左滑按钮
+//            "recyclerviewSwipe"                    : "com.yanzhenjie:recyclerview-swipe:${dependVersion["recyclerview_swipe"]}",
+
+            //network
+            "okhttp"                               : "com.squareup.okhttp3:okhttp:${dependVersion["okhttp"]}",
+            "retrofit"                             : "com.squareup.retrofit2:retrofit:${dependVersion["retrofit"]}",
+            "converter-gson"                       : "com.squareup.retrofit2:converter-gson:${dependVersion["retrofit"]}",
+            "converter-scalars"                    : "com.squareup.retrofit2:converter-scalars:${dependVersion["retrofit"]}",
+
+            //转换器，请求结果转换成Model
+            "converter-gson"                       : "com.squareup.retrofit2:converter-gson:${dependVersion["retrofit"]}",
+            "adapter-rxjava"                       : "com.squareup.retrofit2:adapter-rxjava2:${dependVersion["retrofit"]}",
+            "gson"                                 : "com.google.code.gson:gson:${dependVersion["gson"]}",
+
+            // rxJava
+            // 详解: https://gank.io/post/5e78b2f65d7c47fe610b0029
+            // https://github.com/ReactiveX/RxJava
+            // https://github.com/ReactiveX/RxAndroid
+            "rxJava"                               : "io.reactivex.rxjava3:rxjava:${dependVersion["rxJava"]}",
+            "rxAndroid"                            : "io.reactivex.rxjava3:rxandroid:${dependVersion["rxAndroid"]}",
+
+            //rxbinding https://github.com/JakeWharton/RxBinding rxbinding中包含了rxJava和rxAndroid
+            "rxbinding"                            : "com.jakewharton.rxbinding4:rxbinding:${dependVersion["rxbinding"]}",
+            // databing适配器 recyclerview的databinding套装
+            // https://github.com/evant/binding-collection-adapter
+            "dataBindingAdapter"                   : "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:${dependVersion["dataBindingAdapter"]}",
+            "bindingcollectionadapter"             : "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.2.0",
+            "bindingcollectionadapter-recyclerview": "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:${dependVersion["dataBindingAdapter"]}",
+            "bindingcollectionadapter-viewpager2"  : "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-viewpager2:${dependVersion["dataBindingAdapter"]}",
+            //recyclerview的databinding套装
+
+            // RxLifecycle就是为了解决rxjava导致的内存泄漏而产生的。
+            // gitHub: https://github.com/trello/RxLifecycle
+            // 它可以让Observable发布的事件和当前的组件绑定，实现生命周期同步。
+            // 从而实现当前组件生命周期结束时，自动取消对Observable订阅。
+            // 核心思想：通过监听Activity、Fragment的生命周期，来自动断开订阅防止内存泄漏。
+            "rxLifecycle"                          : "com.trello.rxlifecycle4:rxlifecycle:${dependVersion["rxLifecycle"]}",
+            // If you want to bind to Android-specific lifecycles
+            "rxlifecycle-android"                  : "com.trello.rxlifecycle4:rxlifecycle-android:${dependVersion["rxLifecycle"]}",
+            // If you want pre-written Activities and Fragments you can subclass as providers
+            "rxLifecycle-components"               : "com.trello.rxlifecycle4:rxlifecycle-components:${dependVersion["rxLifecycle"]}",
+            // If you want pre-written support preference Fragments you can subclass as providers
+            "components-preference"                : "com.trello.rxlifecycle4:rxlifecycle-components-preference:${dependVersion["rxLifecycle"]}",
+            // If you want to use Android Lifecycle for providers
+            "rxlifecycle-android-lifecycle"        : "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:${dependVersion["rxLifecycle"]}",
+            // If you want to use Kotlin syntax
+            "rxlifecycle-kotlin"                   : "com.trello.rxlifecycle4:rxlifecycle-kotlin:${dependVersion["rxLifecycle"]}",
+            // If you want to use Kotlin syntax with Android Lifecycle
+            "rxlifecycle-android-lifecycle-kotlin" : "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:${dependVersion["rxLifecycle"]}",
+            
+            "lifecycle-extensions"                 : 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02',
+
+            //rx 6.0权限请求
+            "rxpermissions"                        : "com.github.tbruyelle:rxpermissions:${dependVersion["rxpermissions"]}",
+
+    ]
+
+
+    deps = [dependencies.values(), support.values()]
+}

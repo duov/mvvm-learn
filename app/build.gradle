@@ -71,6 +71,7 @@ dependencies {
     implementation project(':baselibrary')
     implementation project(':model_user')
 
+    // 哪个model用aRouter哪个就要引用
     annotationProcessor rootProject.ext.dependencies["aArouterCompiler"]
 
 }
